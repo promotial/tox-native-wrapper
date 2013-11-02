@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+    <title>Offline</title>
+
+    <link rel="stylesheet" type="text/css" href="css/fallback.css">
+    
+    <script charset="utf-8" type="text/javascript" src="cordova.js"></script>
+
+    <script type="text/javascript">
+
+     document.addEventListener("online", onOnline, false);
+
+     function onOnline() {
+       // Try loading app again
+       window.location.replace("index.html");
+     }
+    
+    </script>
+
+  </head>
+    
+  <body>
+    
+  <div id="login">
+    <img id="tox-title" src="img/tox-logo.png">
+    <div id="login-forms">
+      <div class="forms-border-top"></div>
+      <!-- login username form -->
+      <input id="login-username" class="login-form" type="email" placeholder="Email" required>
+      <div id="login-username-side" class="login-form-side">
+          <span class="login-form-side-text icon-user"></span>
+      </div>
+      <!-- login pass form -->
+      <input id="login-pass" class="login-form" type="password" placeholder="Passwort" required>
+      <div id="login-pass-side" class="login-form-side">
+        <span class="login-form-side-text icon-lock"></span>
+      </div>
+      <input type="submit" class="login-btn clickable" id="login-btn" value="Login">
+      <input type="submit" class="login-btn clickable" id="register-btn" value="Anmelden">
+      <div class="forms-border-bottom"></div>
+    </div>
+    <img id="facebook-sign-in" style="left:6%" class="sign-in-btn clickable" src="img/login/fbicon.png">
+    <img id="twitter-sign-in" style="left:0;right:0;margin: auto;" class="sign-in-btn clickable" src="img/login/twittericon.png">
+    <img id="google-sign-in" style="right:6%" class="sign-in-btn clickable" src="img/login/gplusicon.png">
+  </div>
+  
+  <script type="text/javascript">
+     var elems = document.getElementsByClassName('clickable');
+     for(var i = 0; i < elems.length; i++) {
+       elems[i].onclick = function(){
+         alert("No Internet Connection");
+       }
+     };
+  </script>
+      
+  </body>
+</html>

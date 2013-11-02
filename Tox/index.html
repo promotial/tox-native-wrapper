@@ -37,11 +37,28 @@
 
 </head>
 <body>
-  <iframe id="meteor" src="https://toxuser.meteor.com"></iframe>
+  <iframe id="meteor" src="https://toxtest-user.meteor.com"></iframe>
 
   <script type="text/javascript">
-  
-    meteor = new MeteorCordova('meteor',{appcache:true});
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
+    //
+    function onDeviceReady() {
+        document.addEventListener("offline", onOffline, false);
+        meteor = new MeteorCordova('meteor',{appcache:true});
+        
+        // Begin the load process
+        meteor.load(function(error) {
+          if (error) {
+            alert('error: ' + error);
+          }
+        });
+    }
+
+    function onOffline() {
+       window.location.replace("fallbackurl.html");
+    }
 
     // meteor.initPush({ senderID: 'xGoogleKeyx' });
 
