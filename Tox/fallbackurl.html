@@ -7,17 +7,17 @@
 
     <link rel="stylesheet" type="text/css" href="css/fallback.css">
     
-    <script charset="utf-8" type="text/javascript" src="cordova.js"></script>
+    <script charset="utf-8" type="text/javascript" src="js/online.min.js"></script>
 
     <script type="text/javascript">
 
-     document.addEventListener("online", onOnline, false);
-
-     function onOnline() {
-       // Try loading app again
-       window.location.replace("index.html");
-     }
-    
+    var onlineCheck = setInterval(function() {
+        if (window.onLine === true) {
+            clearInterval(onlineCheck);
+            window.location.replace("index.html");
+        }
+    },100);
+      
     </script>
 
   </head>

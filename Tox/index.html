@@ -1,64 +1,54 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-
 <html>
 <head>
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
   <title>Tox</title>
 
-    <link rel="stylesheet" type="text/css" href="css/meteor.cordova.css">
+  <link rel="stylesheet" type="text/css" href="css/meteor.cordova.css">
 
-    <script charset="utf-8" type="text/javascript" src="cordova.js"></script>
+  <script charset="utf-8" type="text/javascript" src="cordova.js"></script>
   <!--<script charset="utf-8" type="text/javascript" src="PushNotification.js"></script>-->
 
-    <script charset="utf-8" type="text/javascript" src="js/meteor.cordova.js"></script>
-
+  <script charset="utf-8" type="text/javascript" src="js/meteor.cordova.js"></script>
   <!--<script charset="utf-8" type="text/javascript" src="meteor.cordova.push.js"></script>-->
-
-
+   
+  <script charset="utf-8" type="text/javascript" src="js/online.min.js"></script>
 
 </head>
 <body>
-  <iframe id="meteor" src="https://toxtest-user.meteor.com"></iframe>
+  <iframe id="meteor" src="http://toxapp.meteor.com"></iframe>
 
   <script type="text/javascript">
-    document.addEventListener("deviceready", onDeviceReady, false);
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var state = false;
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
 
-    // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
-    //
-    function onDeviceReady() {
-        document.addEventListener("offline", onOffline, false);
-        meteor = new MeteorCordova('meteor',{appcache:true});
+    // Listen to message from child IFrame window
+    eventer(messageEvent, function (e) {
+      if (e.origin == 'http://toxapp.meteor.com') {
+        state = e.data;
+      }
+    }, false);
+
+    var fallbackCheck = setInterval(function() {
+      if (window.onLine !== true) {
+        if (state !== "app") {
+          clearInterval(fallbackCheck);
+          window.location.replace("fallbackurl.html");
+        }
+      }
+    },1000);
+
+    meteor = new MeteorCordova('meteor',{appcache:true});
         
-        // Begin the load process
-        meteor.load(function(error) {
-          if (error) {
-            alert('error: ' + error);
-          }
-        });
-    }
-
-    function onOffline() {
-       window.location.replace("fallbackurl.html");
-    }
+    // Begin the load process
+    meteor.load(function(error) {
+      if (error) {
+        alert('error: ' + error);
+      }
+    });
 
     // meteor.initPush({ senderID: 'xGoogleKeyx' });
 
