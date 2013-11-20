@@ -17,7 +17,7 @@
 
 </head>
 <body>
-  <iframe id="meteor" src="https://toxapp.meteor.com"></iframe>
+  <iframe id="meteor" src="https://tox-app.meteor.com"></iframe>
 
   <script type="text/javascript">
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -27,7 +27,7 @@
 
     // Listen to message from child IFrame window
     eventer(messageEvent, function (e) {
-      if (e.origin == 'https://toxapp.meteor.com') {
+      if (e.origin == 'https://tox-app.meteor.com') {
         state = e.data;
       }
     }, false);
